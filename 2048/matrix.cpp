@@ -1,5 +1,7 @@
 #include "matrix.h"
 
+#define IMAGE_NUMBER(a) #a
+
 QWidget* Matrix::parent = nullptr;
 
 
@@ -41,7 +43,7 @@ public:
         X = (X_Cord * width) + X_SPACE;
         Y = (Y_Cord * height) + Y_SPACE;
         Image = new QLabel (parent);
-        i = new QImage (":/images/Hamzasaleem-Stock-Trash.ico");
+        i = new QImage (QString(":/images/image") + IMAGE_NUMBER(2) + ".png");
         QImage ScaledImage = i->scaled(width,height,Qt::IgnoreAspectRatio);
         Level = 2; // Square umber
         Image->show();
@@ -85,7 +87,7 @@ Matrix::Matrix(QWidget* pr) // construcror
             Field[i][j] = nullptr;
         }
     }
-
+    Field[1][1] = new Square(1,1);
     //to do: make two new Squares
 }
 

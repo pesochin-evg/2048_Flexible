@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/images">
         <file>image.png</file>
-        <file>Hamzasaleem-Stock-Trash.ico</file>
+        <file>image2.png</file>
     </qresource>
 </RCC>
