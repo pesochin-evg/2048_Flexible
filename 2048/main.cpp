@@ -1,3 +1,4 @@
+#include "matrix.h"
 #include "mainwindow.h"
 #include <QApplication>
 

@@ -1,19 +1,7 @@
 #include "matrix.h"
 
-Matrix::Matrix() // construcror
-{
-    Score = 0;
+QWidget* Matrix::parent = nullptr;
 
-    for(int i = 0; i < 3; i++) // initializing field by NULL
-    {
-        for(int j; j < 3; j++)
-        {
-            this->Field[i][j] = nullptr;
-        }
-    }
-
-    //to do: make two new Squares
-}
 
 Matrix::~Matrix() // destructur
 {
@@ -50,12 +38,20 @@ class Matrix::Square // class of Square
 public:
     Square(int X_Cord, int Y_Cord) // constructor of Square. X_Cord,Y_Cord from 1 to 4
     {
-        Level = 2; // Square umber
         X = (X_Cord * width) + X_SPACE;
         Y = (Y_Cord * height) + Y_SPACE;
+        Image = new QLabel (parent);
+        i = new QImage (":/images/Hamzasaleem-Stock-Trash.ico");
+        QImage ScaledImage = i->scaled(width,height,Qt::IgnoreAspectRatio);
+        Level = 2; // Square umber
+        Image->show();
+        Image->resize(width,height);
+        Image->setGeometry(X,Y,width,height);
+        Image->setPixmap(QPixmap::fromImage(ScaledImage,Qt::AutoColor));
+
         //to do: width,height initialization
     }
-    void Animate(int X_Cord, int Y_Cord) // Cordinate of new place (form 1 to 4)
+    void Animate(int X_Cord, int Y_Cord) // Cordinate of new place (form 0 to 3)
     {
         // to do animation of square
     }
@@ -64,12 +60,33 @@ public:
     int Y; //Pixel cordinate Y (not field cordinate)
     static int width;
     static int height;
+    QLabel* Image;
+private:
+    QImage* i;
     // to do: Image class
 };
+
+int Matrix::Square::width = 100;
+int Matrix::Square::height = 100;
 
 void Matrix::newSquare() // Return new free Square if its possible else NULL
 {
 
+}
+
+Matrix::Matrix(QWidget* pr) // construcror
+{
+    Score = 0;
+    Matrix::parent = pr;
+    for(int i = 0; i < 3; i++) // initializing field by NULL
+    {
+        for(int j; j < 3; j++)
+        {
+            Field[i][j] = nullptr;
+        }
+    }
+
+    //to do: make two new Squares
 }
 
 
