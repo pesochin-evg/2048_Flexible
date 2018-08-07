@@ -7,10 +7,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->resize(480,640);
-    Matrix MainMatrix(this);
+    MainMatrix = new Matrix(this);
+    //Matrix MainMatrix(this);
 }
 
 MainWindow::~MainWindow()
 {
+    delete MainMatrix;
     delete ui;
 }

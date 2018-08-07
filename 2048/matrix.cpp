@@ -7,7 +7,14 @@ QWidget* Matrix::parent = nullptr;
 
 Matrix::~Matrix() // destructur
 {
-
+    for(int i = 0; i < 3; i++) // initializing field by NULL
+    {
+        for(int j; j < 3; j++)
+        {
+            delete Field[i][j];
+        }
+    }
+    //delete parent;
 }
 
 void Matrix::Down() // function for swapping Squares Down
