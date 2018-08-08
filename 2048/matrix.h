@@ -3,9 +3,14 @@
 
 #define X_SPACE 40 // to do initializ
 #define Y_SPACE 120 // to do initializ
+#define WIDTH_SQR 100 // width of square
+#define HEIGHT_SQR 100 // height of square
 
 #include <QLabel>
 #include <QImage>
+#include <vector>
+#include <ctime>
+#include <cstdlib>
 
 class MainWindow;
 
@@ -20,10 +25,11 @@ public:
     void Right();   // adding on Field new Square.With function newSquare
 private:
     static QWidget* parent; //Pointer on MainWindow atribute
-    int pair[2];
+    struct pair;
     class Square;
+    std::vector<pair> Avaible_Sqr; // Empty Squares
     Square* Field[4][4]; // to do: Random x,y initialization  //(Field 4x4)
-    void newSquare(); // Making pair[]
+    pair newSquare(); // Making pair[]
     unsigned int Score; // Variable for score
     void GmaeOver(); // Show "Game Over" and a Score
 };

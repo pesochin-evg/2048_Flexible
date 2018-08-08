@@ -4,6 +4,10 @@
 
 QWidget* Matrix::parent = nullptr;
 
+struct Matrix::pair
+{
+    int memb[2];
+};
 
 Matrix::~Matrix() // destructur
 {
@@ -53,7 +57,7 @@ public:
 
         //----------Image showing----------//
         Image = new QLabel (parent);
-        i = new QImage (QString(":/img/Images/image") + IMAGE_NUMBER(Level) + ".png");
+        i = new QImage (QString(":/img/Images/image") + IMAGE_NUMBER(2) + ".png");
         QImage ScaledImage = i->scaled(width,height,Qt::IgnoreAspectRatio);
         Image->show();
         Image->resize(width,height);
@@ -85,27 +89,42 @@ private:
     QImage* i;
 };
 
-int Matrix::Square::width = 100;
-int Matrix::Square::height = 100;
+int Matrix::Square::width = WIDTH_SQR;
+int Matrix::Square::height = HEIGHT_SQR;
 
-void Matrix::newSquare() // Return new free Square if its possible else NULL
+Matrix::pair Matrix::newSquare() // Return new free Square if its possible else NULL
 {
-
+    pair tmp;
+    srand(time(NULL));
+    int i = rand() % (Avaible_Sqr.size());
+    tmp = Avaible_Sqr[i];
+    auto it = Avaible_Sqr.begin();
+    Avaible_Sqr.erase(it + i);
+    return tmp;
 }
 
 Matrix::Matrix(QWidget* pr) // construcror
 {
+    Avaible_Sqr.resize(16);
     Score = 0;
+    short int cur = 0;
     Matrix::parent = pr;
-    for(int i = 0; i < 3; i++) // initializing field by NULL
+    for(short int i = 0; i < 4; i++) // initializing field by NULL
     {
-        for(int j; j < 3; j++)
+        for(short int j = 0; j < 4; j++)
         {
+            Avaible_Sqr[cur].memb[0] = i;
+            Avaible_Sqr[cur].memb[1] = j;
+            cur++;
             Field[i][j] = nullptr;
         }
     }
-    Field[1][1] = new Square(1,1);
-    //to do: make two new Squares
+    for(int i = 0; i < 2; i++)
+    {
+        pair tmp = newSquare();
+        Field[tmp.memb[0]][tmp.memb[1]] = new Square(tmp.memb[0],tmp.memb[1]);
+    }
+
 }
 
 
