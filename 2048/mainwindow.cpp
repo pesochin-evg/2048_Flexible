@@ -8,7 +8,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->resize(480,640);
     MainMatrix = new Matrix(this);
-    //Matrix MainMatrix(this);
 }
 
 MainWindow::~MainWindow()
