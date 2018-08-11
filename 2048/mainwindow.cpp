@@ -6,7 +6,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->resize(480,640);
+    this->resize(480,550);
+    //this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setMaximumSize(480,550);
+    this->setMinimumSize(480,550);
+    this->setWindowTitle("2048");
     MainMatrix = new Matrix(this);
 }
 

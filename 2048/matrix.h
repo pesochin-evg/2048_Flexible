@@ -2,7 +2,7 @@
 #define MATRIX_H
 
 #define X_SPACE 40 // to do initializ
-#define Y_SPACE 120 // to do initializ
+#define Y_SPACE 100 // to do initializ
 #define WIDTH_SQR 100 // width of square
 #define HEIGHT_SQR 100 // height of square
 #define SQR_SPACE 5 // space around the square
@@ -19,6 +19,8 @@
 #include <cstdlib>
 #include <thread>
 #include <chrono>
+#include <QFont>
+#include <QColor>
 
 
 class MainWindow;
@@ -33,6 +35,7 @@ public:
     void Left();    // if the game is over or not. If not function
     void Right();   // adding on Field new Square.With function newSquare
 private:
+    QLabel *Score_Print;
     void shift(int,int);
     static QWidget* parent; //Pointer on MainWindow atribute
     struct pair; // Struct for cordinats on field using in newSquare()

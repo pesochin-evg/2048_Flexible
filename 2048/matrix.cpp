@@ -161,6 +161,9 @@ void Matrix::shift(int dir, int line)
 
                     Field[line][start_point + 1]->LevelUp();
 
+                    Score += Field[start_point + 1][line]->Level;
+                    Score_Print->setText(QString("Score:\t") + QString::number(Score));
+
                     pair tmp1;
                     tmp1.memb[0] = line;
                     tmp1.memb[1] = i;
@@ -221,6 +224,9 @@ void Matrix::shift(int dir, int line)
 
                     Field[line][start_point - 1]->LevelUp();
 
+                    Score += Field[start_point - 1][line]->Level;
+                    Score_Print->setText(QString("Score:\t") + QString::number(Score));
+
                     pair tmp1;
                     tmp1.memb[0] = line;
                     tmp1.memb[1] = i;
@@ -280,6 +286,9 @@ void Matrix::shift(int dir, int line)
 
                     Field[start_point - 1][line]->LevelUp();
 
+                    Score += Field[start_point - 1][line]->Level;
+                    Score_Print->setText(QString("Score:\t") + QString::number(Score));
+
                     pair tmp1;
                     tmp1.memb[0] = i;
                     tmp1.memb[1] = line;
@@ -338,6 +347,9 @@ void Matrix::shift(int dir, int line)
                     Field[i][line] = nullptr;
 
                     Field[start_point + 1][line]->LevelUp();
+
+                    Score += Field[start_point + 1][line]->Level;
+                    Score_Print->setText(QString("Score:\t") + QString::number(Score));
 
                     pair tmp1;
                     tmp1.memb[0] = i;
@@ -402,11 +414,28 @@ Matrix::Matrix(QWidget* pr) // construcror
         }
     }
 
-    for(int i = 0; i < 2; i++)
+    QPalette Score_Print_Pallet;
+    Score_Print_Pallet.setColor(QPalette::WindowText, QColor(119, 110,101));
+
+    Score_Print = new QLabel(parent);
+    QFont font = Score_Print->font();
+    font.setPixelSize(64);
+    font.setBold(true);
+    font.setFamily("Bauhaus 93");
+    Score_Print->setFont(font);
+    Score_Print->setPalette(Score_Print_Pallet);
+    Score_Print->setGeometry(X_SPACE, X_SPACE / 2, parent->width() - (X_SPACE * 2), X_SPACE * 2);
+    Score_Print->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
+    Score_Print->setText(QString("Score:\t") + QString::number(Score));
+
+    Score_Print->show();
+
+    for(int i = 0; i < 16; i++)
     {
         pair tmp = newSquare();
         Field[tmp.memb[0]][tmp.memb[1]] = new Square(tmp.memb[0],tmp.memb[1]);
     }
+
 
 }
 
