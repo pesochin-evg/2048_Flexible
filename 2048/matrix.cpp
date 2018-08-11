@@ -66,9 +66,7 @@ public:
 
         Image->setGeometry(X_Cord_PXL  + SQR_SPACE,Y_Cord_PXL + SQR_SPACE,width - SQR_SPACE,height - SQR_SPACE);
 
-        /*int X_Cord_PXL = (X_Cord * WIDTH_SQR) + X_SPACE;// cordinate in pixels
-        int Y_Cord_PXL = (Y_Cord * HEIGHT_SQR) + Y_SPACE; //
-        if(X_Cord_PXL == X) // Y animation
+        /*f(X_Cord_PXL == X) // Y animation
         {
             int dist = Y_Cord_PXL - Y;
             int speed = dist / ANIM_TIME;
@@ -99,11 +97,12 @@ public:
                 {
                     time(&now);
                 };
-            }*/
+            }
+         }*/
 
         }
         // to do animation of square
-public:
+
     unsigned int Level;
     int X; //Pixel cordinate X (not field cordinate)
     int Y; //Pixel cordinate Y (not field cordinate)
@@ -146,12 +145,123 @@ void Matrix::shift(int dir, int line)
 
     switch (dir)
     {
-    case UP:
+    case DOWN:
+        start_point = 3;
+        for (int i = 3; i >= 0; i--)
+        {
+            if(Field[line][i] != nullptr)
+            {
+                if(start_point != 3  && Field[line][start_point + 1]->Level == Field[line][i]->Level)
+                {
+                    Field[line][i]->Animate(start_point + 1,line);
+
+                    Square *tmp = Field[line][i];
+                    delete tmp;
+                    Field[line][i] = nullptr;
+
+                    Field[line][start_point + 1]->LevelUp();
+
+                    pair tmp1;
+                    tmp1.memb[0] = line;
+                    tmp1.memb[1] = i;
+                    Avaible_Sqr.push_back(tmp1);
+
+                }
+                else
+                {
+                    int lvl = (int)sqrt(Field[line][i]->Level);
+
+                    Square *tmp = Field[line][i];
+                    delete tmp;
+                    Field[line][i] = nullptr;
+
+                    Field[line][start_point] = new Square(line, i);
+
+                    for(int j = 0; j < lvl - 1; j++)
+                    {
+                        Field[line][start_point]->LevelUp();
+                    }
+                    Field[line][start_point]->Animate(line, start_point);
+
+                    pair tmp1;
+                    tmp1.memb[0] = line;
+                    tmp1.memb[1] = i;
+                    Avaible_Sqr.push_back(tmp1);
+
+                    for(auto it = Avaible_Sqr.begin(); it != Avaible_Sqr.end(); ++it)
+                    {
+                        if(it->memb[0] == line && it->memb[1] == start_point)
+                        {
+                            Avaible_Sqr.erase(it);
+                            break;
+                        }
+                    }
+
+                    --start_point;
+
+                }
+            }
+        }
 
     break;
 
-    case DOWN:
+    case UP:
+        start_point = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            if(Field[line][i] != nullptr)
+            {
+                if(start_point != 0  && Field[line][start_point - 1]->Level == Field[line][i]->Level)
+                {
+                    Field[line][i]->Animate(line, start_point - 1);
 
+                    Square *tmp = Field[line][i];
+                    delete tmp;
+                    Field[line][i] = nullptr;
+
+                    Field[line][start_point - 1]->LevelUp();
+
+                    pair tmp1;
+                    tmp1.memb[0] = line;
+                    tmp1.memb[1] = i;
+                    Avaible_Sqr.push_back(tmp1);
+
+                }
+                else
+                {
+                    int lvl = (int)sqrt(Field[line][i]->Level);
+
+                    Square *tmp = Field[line][i];
+                    delete tmp;
+                    Field[line][i] = nullptr;
+
+                    Field[line][start_point] = new Square(line,i);
+
+                    for(int j = 0; j < lvl - 1; j++)
+                    {
+                        Field[line][start_point]->LevelUp();
+                    }
+                    Field[line][start_point]->Animate(line, start_point);
+
+                    pair tmp1;
+                    tmp1.memb[0] = line;
+                    tmp1.memb[1] = i;
+                    Avaible_Sqr.push_back(tmp1);
+
+                    for(auto it = Avaible_Sqr.begin(); it != Avaible_Sqr.end(); ++it)
+                    {
+                        if(it->memb[0] == line && it->memb[1] == start_point)
+                        {
+                            Avaible_Sqr.erase(it);
+                            break;
+                        }
+                    }
+
+                    ++start_point;
+
+                }
+            }
+        }
     break;
 
     case LEFT:
@@ -211,7 +321,6 @@ void Matrix::shift(int dir, int line)
                 }
             }
         }
-
     break;
 
     case RIGHT:
@@ -271,9 +380,9 @@ void Matrix::shift(int dir, int line)
                 }
             }
         }
-
     break;
     }
+
 }
 
 Matrix::Matrix(QWidget* pr) // construcror
@@ -293,14 +402,11 @@ Matrix::Matrix(QWidget* pr) // construcror
         }
     }
 
-    for(int i = 0; i < 16; i++)
+    for(int i = 0; i < 2; i++)
     {
         pair tmp = newSquare();
         Field[tmp.memb[0]][tmp.memb[1]] = new Square(tmp.memb[0],tmp.memb[1]);
     }
-
-    Left();
-    Right();
 
 }
 
