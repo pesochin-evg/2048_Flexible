@@ -2,7 +2,7 @@
 #define MATRIX_H
 
 #define X_SPACE 40 // to do initializ
-#define Y_SPACE 100 // to do initializ
+#define Y_SPACE 160 // to do initializ
 #define WIDTH_SQR 100 // width of square
 #define HEIGHT_SQR 100 // height of square
 #define SQR_SPACE 5 // space around the square

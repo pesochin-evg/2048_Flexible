@@ -161,7 +161,7 @@ void Matrix::shift(int dir, int line)
 
                     Field[line][start_point + 1]->LevelUp();
 
-                    Score += Field[start_point + 1][line]->Level;
+                    Score += Field[line][start_point + 1]->Level;
                     Score_Print->setText(QString("Score:\t") + QString::number(Score));
 
                     pair tmp1;
@@ -172,7 +172,13 @@ void Matrix::shift(int dir, int line)
                 }
                 else
                 {
-                    int lvl = (int)sqrt(Field[line][i]->Level);
+                    int lvl = 1;
+                    int last_lvl = Field[line][i]->Level;
+                    while (last_lvl != 2)
+                    {
+                        last_lvl /= 2;
+                        ++lvl;
+                    }
 
                     Square *tmp = Field[line][i];
                     delete tmp;
@@ -224,7 +230,7 @@ void Matrix::shift(int dir, int line)
 
                     Field[line][start_point - 1]->LevelUp();
 
-                    Score += Field[start_point - 1][line]->Level;
+                    Score += Field[line][start_point - 1]->Level;
                     Score_Print->setText(QString("Score:\t") + QString::number(Score));
 
                     pair tmp1;
@@ -235,7 +241,14 @@ void Matrix::shift(int dir, int line)
                 }
                 else
                 {
-                    int lvl = (int)sqrt(Field[line][i]->Level);
+                    int lvl = 1;
+                    int last_lvl = Field[line][i]->Level;
+                    while (last_lvl != 2)
+                    {
+                        last_lvl /= 2;
+                        ++lvl;
+                    }
+
 
                     Square *tmp = Field[line][i];
                     delete tmp;
@@ -297,7 +310,13 @@ void Matrix::shift(int dir, int line)
                 }
                 else
                 {
-                    int lvl = (int)sqrt(Field[i][line]->Level);
+                    int lvl = 1;
+                    int last_lvl = Field[i][line]->Level;
+                    while (last_lvl != 2)
+                    {
+                        last_lvl /= 2;
+                        ++lvl;
+                    }
 
                     Square *tmp = Field[i][line];
                     delete tmp;
@@ -359,7 +378,14 @@ void Matrix::shift(int dir, int line)
                 }
                 else
                 {
-                    int lvl = (int)sqrt(Field[i][line]->Level);
+                    int lvl = 1;
+                    int last_lvl = Field[i][line]->Level;
+                    while (last_lvl != 2)
+                    {
+                        last_lvl /= 2;
+                        ++lvl;
+                    }
+
 
                     Square *tmp = Field[i][line];
                     delete tmp;
@@ -424,7 +450,7 @@ Matrix::Matrix(QWidget* pr) // construcror
     font.setFamily("Bauhaus 93");
     Score_Print->setFont(font);
     Score_Print->setPalette(Score_Print_Pallet);
-    Score_Print->setGeometry(X_SPACE, X_SPACE / 2, parent->width() - (X_SPACE * 2), X_SPACE * 2);
+    Score_Print->setGeometry(X_SPACE, X_SPACE, parent->width() - (X_SPACE * 2), X_SPACE * 2);
     Score_Print->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
     Score_Print->setText(QString("Score:\t") + QString::number(Score));
 
@@ -435,6 +461,12 @@ Matrix::Matrix(QWidget* pr) // construcror
         pair tmp = newSquare();
         Field[tmp.memb[0]][tmp.memb[1]] = new Square(tmp.memb[0],tmp.memb[1]);
     }
+
+    Left();
+    Up();
+    Left();
+    Up();
+
 
 
 }
