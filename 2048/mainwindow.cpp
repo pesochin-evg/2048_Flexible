@@ -19,3 +19,30 @@ MainWindow::~MainWindow()
     delete MainMatrix;
     delete ui;
 }
+
+void MainWindow::mousePressEvent(QMouseEvent * event)
+{
+    last_press = event->pos();
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent * event)
+{
+    QPoint release = event->pos();
+
+    if(abs(last_press.x() - release.x()) > abs(last_press.y() - release.y()))
+    {
+        if(last_press.x() > release.x())
+        {
+            MainMatrix->Left();
+        } else {
+            MainMatrix->Right();
+        }
+    } else {
+        if(last_press.y() > release.y())
+        {
+            MainMatrix->Up();
+        } else {
+            MainMatrix->Down();
+        }
+    }
+}

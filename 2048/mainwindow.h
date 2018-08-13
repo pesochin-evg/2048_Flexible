@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include "matrix.h"
 
+#include <QMouseEvent>
+#include <QPoint>
+
 namespace Ui {
 class MainWindow;
 }
@@ -19,6 +22,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+protected:
+    QPoint last_press;
+    virtual void mousePressEvent(QMouseEvent *);
+    virtual void mouseReleaseEvent(QMouseEvent *);
 };
 
 #endif // MAINWINDOW_H

@@ -456,18 +456,11 @@ Matrix::Matrix(QWidget* pr) // construcror
 
     Score_Print->show();
 
-    for(int i = 0; i < 16; i++)
+    for(int i = 0; i < 2; i++)
     {
         pair tmp = newSquare();
         Field[tmp.memb[0]][tmp.memb[1]] = new Square(tmp.memb[0],tmp.memb[1]);
     }
-
-    Left();
-    Up();
-    Left();
-    Up();
-
-
 
 }
 
