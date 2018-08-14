@@ -11,10 +11,6 @@ struct Matrix::pair
     int memb[2];
 };
 
-void Matrix::GmaeOver() // Show "Game Over" and a Score
-{
-
-}
 
 class Matrix::Square // class of Square
 {
@@ -54,11 +50,6 @@ public:
 
     }
 
-    void Animate_PXL(int X_Cord, int Y_Cord)
-    {
-        Image->setGeometry(X_Cord  + SQR_SPACE,Y_Cord + SQR_SPACE,width - SQR_SPACE,height - SQR_SPACE);
-    }
-
     void Animate(int X_Cord, int Y_Cord) // Cordinate of new place (form 0 to 3)
     {
         int X_Cord_PXL = (X_Cord * WIDTH_SQR) + X_SPACE;// cordinate in pixels
@@ -66,10 +57,10 @@ public:
 
         Image->setGeometry(X_Cord_PXL  + SQR_SPACE,Y_Cord_PXL + SQR_SPACE,width - SQR_SPACE,height - SQR_SPACE);
 
-        /*f(X_Cord_PXL == X) // Y animation
+        /*if(X_Cord_PXL == X) // Y animation
         {
             int dist = Y_Cord_PXL - Y;
-            int speed = dist / ANIM_TIME;
+            int speed = dist * 100 / ANIM_TIME;
             while(Y_Cord_PXL != Y)
             {
                 Y += speed;
@@ -79,10 +70,10 @@ public:
         }else if(Y_Cord_PXL == Y) // X animation
         {
             int dist = X_Cord_PXL - X;
-            int speed =(-1);//dist / ANIM_TIME);
+            int speed =dist/ ANIM_TIME;;//dist / ANIM_TIME);
             for(int i = 0; i < 200; i++)
             {
-                X += speed;
+                X += 20;
                 Image->setGeometry(X + SQR_SPACE,Y + SQR_SPACE,width - SQR_SPACE,height - SQR_SPACE);
             }
             while(X_Cord_PXL != X)
@@ -96,9 +87,7 @@ public:
                 while(difftime(now, last) < 1)
                 {
                     time(&now);
-                };
-            }
-         }*/
+                };*/
 
         }
         // to do animation of square
@@ -113,18 +102,45 @@ private:
     QImage* i;
 };
 
+void Matrix::GmaeOver() // Show "Game Over" and a Score
+{
+
+    for(short int i = 0; i < 4; i++) // initializing field by NULL
+    {
+        for(short int j = 0; j < 4; j++)
+        {
+            Square *tmp = Field[i][j];
+            delete tmp;
+            Field[i][j] = nullptr;
+        }
+    }
+    QFont font = Score_Print->font();
+    font.setPixelSize(48);
+    Score_Print->setFont(font);
+
+    Score_Print->setText(QString("Game over!\nYour score:") + QString::number(Score));
+    Score_Print->setGeometry(0, parent->height() / 2 - X_SPACE, parent->width(), X_SPACE * 4);
+}
+
 int Matrix::Square::width = WIDTH_SQR;
 int Matrix::Square::height = HEIGHT_SQR;
 
 Matrix::pair Matrix::newSquare() // Return new free Square if its possible else NULL
 {
     pair tmp;
+    if(Avaible_Sqr.size() == 0)
+    {
+        tmp.memb[0] = -1;
+        tmp.memb[2] = -1;
+        return tmp;
+    } else {
     srand(time(NULL));
     int i = rand() % (Avaible_Sqr.size());
     tmp = Avaible_Sqr[i];
     auto it = Avaible_Sqr.begin();
     Avaible_Sqr.erase(it + i);
     return tmp;
+    }
 }
 
 Matrix::~Matrix() // destructur
@@ -456,7 +472,7 @@ Matrix::Matrix(QWidget* pr) // construcror
 
     Score_Print->show();
 
-    for(int i = 0; i < 2; i++)
+    for(int i = 0; i < 16; i++)
     {
         pair tmp = newSquare();
         Field[tmp.memb[0]][tmp.memb[1]] = new Square(tmp.memb[0],tmp.memb[1]);
@@ -481,7 +497,13 @@ void Matrix::Down() // function for swapping Squares Down
     Matrix::shift(DOWN,3);
 
     pair tmp = newSquare();
+    if(tmp.memb[0] == -1)
+    {
+        Matrix::GmaeOver();
+    } else
+    {
     Field[tmp.memb[0]][tmp.memb[1]] = new Square(tmp.memb[0],tmp.memb[1]);
+    }
 }
 void Matrix::Up() // function for swapping Squares Up
 {
@@ -500,7 +522,13 @@ void Matrix::Up() // function for swapping Squares Up
     Matrix::shift(UP,3);
 
     pair tmp = newSquare();
+    if(tmp.memb[0] == -1)
+    {
+        Matrix::GmaeOver();
+    } else
+    {
     Field[tmp.memb[0]][tmp.memb[1]] = new Square(tmp.memb[0],tmp.memb[1]);
+    }
 }
 void Matrix::Right() // function for swapping Squares Right
 {
@@ -518,7 +546,13 @@ void Matrix::Right() // function for swapping Squares Right
     Matrix::shift(RIGHT,3);
 
     pair tmp = newSquare();
+    if(tmp.memb[0] == -1)
+    {
+        Matrix::GmaeOver();
+    } else
+    {
     Field[tmp.memb[0]][tmp.memb[1]] = new Square(tmp.memb[0],tmp.memb[1]);
+    }
 }
 void Matrix::Left() // function for swapping Squares Left
 {
@@ -536,7 +570,13 @@ void Matrix::Left() // function for swapping Squares Left
     Matrix::shift(LEFT,3);
 
     pair tmp = newSquare();
+    if(tmp.memb[0] == -1)
+    {
+        Matrix::GmaeOver();
+    } else
+    {
     Field[tmp.memb[0]][tmp.memb[1]] = new Square(tmp.memb[0],tmp.memb[1]);
+    }
 }
 
 

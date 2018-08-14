@@ -6,7 +6,7 @@
 #define WIDTH_SQR 100 // width of square
 #define HEIGHT_SQR 100 // height of square
 #define SQR_SPACE 5 // space around the square
-#define ANIM_TIME 200 // time of nimation in milliseconds
+#define ANIM_TIME 100 // time of nimation in milliseconds
 #define UP 1
 #define DOWN 2
 #define LEFT 3
